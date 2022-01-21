@@ -1,4 +1,4 @@
-# pyTEST
+# Comm-Tester
 A python application to test RS232, RS484 and USB ports.
 
 ## Hardware configuration for RS232 Test
