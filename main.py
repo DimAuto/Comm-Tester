@@ -154,6 +154,7 @@ class Ui_Form(QtCore.QObject):
 
     def list_coms(self):
         self.usb_ports=self.usb.usb_ports_refresh()
+        self.comboBox_4.clear()
         self.set_usb_ports()
         if self.comPorts!=self.ts.listPorts():
             self.comPorts=self.ts.listPorts()
@@ -209,14 +210,17 @@ class Ui_Form(QtCore.QObject):
     def set_usb_ports(self):
         if sys.platform != "win32":
             for port in self.usb_ports:
-                self.comboBox_4.addItem(port["tag"].decode())
+                self.comboBox_4.addItem(port["tag"].decode() + "@" + port["device"])
         else:
             for port in self.usb_ports:
                     self.comboBox_4.addItem(port)
             QApplication.processEvents()
 
     def change_usb_path(self):
-        self.usb_path=self.comboBox_4.currentText() + "newfile.txt"
+        if sys.platform != "win32":
+            self.usb_path=self.comboBox_4.currentText().rsplit("@",1)[1] + "newfile.txt"
+        else:
+            self.usb_path=self.comboBox_4.currentText() + "newfile.txt"
 
     
     def test_usb(self):
