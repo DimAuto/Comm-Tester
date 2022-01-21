@@ -209,7 +209,7 @@ class Ui_Form(QtCore.QObject):
     def set_usb_ports(self):
         if sys.platform != "win32":
             for port in self.usb_ports:
-                self.comboBox_4.addItem(port["tug"])
+                self.comboBox_4.addItem(port["tag"])
         else:
             for port in self.usb_ports:
                     self.comboBox_4.addItem(port)
