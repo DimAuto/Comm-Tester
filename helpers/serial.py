@@ -21,7 +21,6 @@ class Test(QtCore.QObject):
         plist=[]
         plist= serial.tools.list_ports.comports()
         for port in plist:
-            print (port)
             self.portList.append(port.name)
         return(self.portList)
 
@@ -163,7 +162,7 @@ class Test(QtCore.QObject):
         ser.close
         return(self.status)
 
-if __name__=="__main__":
-    t=Test("COM10","COM7")
-    print (t.listPorts())
-    print(t.RS485_Test())
+# if __name__=="__main__":
+#     t=Test("COM10","COM7")
+#     print (t.listPorts())
+#     print(t.RS485_Test())
