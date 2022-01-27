@@ -222,8 +222,8 @@ class Ui_Form(QtCore.QObject):
 
     def change_usb_path(self):
         if sys.platform != "win32":
-            self.usb_path=self.comboBox_4.currentText().rsplit("@",1)[1] + "newfile.txt"
             if self.update_flag == True:
+                self.usb_path=self.comboBox_4.currentText().rsplit("@",1)[1] + "newfile.txt"
                 self.mount_usb_drive()
         else:
             self.usb_path=self.comboBox_4.currentText() + "newfile.txt"
