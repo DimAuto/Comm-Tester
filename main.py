@@ -225,7 +225,7 @@ class Ui_Form(QtCore.QObject):
     def change_usb_path(self):
         if sys.platform != "win32":
             if self.update_flag == True:
-                self.usb_path=self.comboBox_4.currentText().rsplit("@",1)[1] + "newfile.txt"
+                self.usb_path=self.comboBox_4.currentText().rsplit("@",1)[1]
                 if not self.mount_usb_drive():
                    self.lineEdit.setText("Failed to mound the current device")
         else:
