@@ -21,6 +21,7 @@ class Ui_Form(QtCore.QObject):
         self.sc_dpi=[dpi.logicalDotsPerInch() for dpi in screens]
         self.comPorts=[]
         self.update_flag = False
+        self.mount_name = "/media/usb_drive"
                 
 
     def setupUi(self, Form):
@@ -225,24 +226,30 @@ class Ui_Form(QtCore.QObject):
         if sys.platform != "win32":
             if self.update_flag == True:
                 self.usb_path=self.comboBox_4.currentText().rsplit("@",1)[1] + "newfile.txt"
-                self.mount_usb_drive()
+                if not self.mount_usb_drive():
+                   self.lineEdit.setText("Failed to mound the current device")
         else:
             self.usb_path=self.comboBox_4.currentText() + "newfile.txt"
         self.update_flag = True
 
     def mount_usb_drive(self):
-        mount_name = "usb_drive"
         try:
-            subprocess.run([f"sudo mkdir /media/{mount_name}"], check = True)
-            subprocess.run([f"sudo mount {self.usb_path} /media/{mount_name}"], check = True)
+            subprocess.run(["sudo mkdir", "-p", self.mount_name], capture_output=True)
+            subprocess.run(["mount", self.usb_path, self.mount_name], check = True)
+            return 1
         except Exception as e:
             print (str(e))
+            return 0
 
     
     def test_usb(self):
         self.lineEdit.setText(" ")
         QApplication.processEvents()
-        self.usb.Wspeed_test(self.usb_path,self.usb.built_str(375000))
+        if sys.platform != "win32":
+            file_name = self.mount_name + "/newline.txt"
+            self.usb.Wspeed_test(file_name, self.usb.built_str(375000))
+        else:
+            self.usb.Wspeed_test(self.usb_path, self.usb.built_str(375000))
         self.lineEdit.setText(self.usb.status)
             
 
