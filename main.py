@@ -235,7 +235,7 @@ class Ui_Form(QtCore.QObject):
     def mount_usb_drive(self):
         try:
             subprocess.run(["mkdir", "-p", self.mount_name], capture_output=True)
-            subprocess.run(["mount", self.usb_path, self.mount_name], check = True)
+            subprocess.run(["sudo", "mount", self.usb_path, self.mount_name], check = True)
             return 1
         except Exception as e:
             print (str(e))
