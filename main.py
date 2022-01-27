@@ -230,11 +230,11 @@ class Ui_Form(QtCore.QObject):
             self.usb_path=self.comboBox_4.currentText() + "newfile.txt"
         self.update_flag = True
 
-    def mount_usb_drive(self, usb_path):
+    def mount_usb_drive(self):
         mount_name = "usb_drive"
         try:
             subprocess.run([f"sudo mkdir /media/{mount_name}"], check = True)
-            subprocess.run([f"sudo mount {usb_path} /media/{mount_name}"], check = True)
+            subprocess.run([f"sudo mount {self.usb_path} /media/{mount_name}"], check = True)
         except Exception as e:
             print (str(e))
 
