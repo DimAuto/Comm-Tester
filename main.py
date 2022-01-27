@@ -98,6 +98,7 @@ class Ui_Form(QtCore.QObject):
         self.comboBox_4 = QtWidgets.QComboBox(Form)
         self.comboBox_4.setObjectName("comboBox_4")
         self.comboBox_4.currentTextChanged.connect(self.change_usb_path)
+        self.comboBox_4.textHighlighted.connect(self.change_usb_path)
         self.gridLayout.addWidget(self.comboBox_4, 9, 0, 1, 1)
         self.label_8 = QtWidgets.QLabel(Form)
         font = QtGui.QFont()
