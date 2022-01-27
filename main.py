@@ -6,6 +6,7 @@ from helpers.serial import Test
 from helpers.usb import USB
 from threading import Timer
 from PyQt5.QtCore import QTimer
+import subprocess
 
 
 class Ui_Form(QtCore.QObject):
@@ -19,6 +20,7 @@ class Ui_Form(QtCore.QObject):
         screens=app.screens()
         self.sc_dpi=[dpi.logicalDotsPerInch() for dpi in screens]
         self.comPorts=[]
+        self.update_flag = False
                 
 
     def setupUi(self, Form):
@@ -154,7 +156,9 @@ class Ui_Form(QtCore.QObject):
 
     def list_coms(self):
         self.usb_ports=self.usb.usb_ports_refresh()
+        self.update_flag = False
         self.comboBox_4.clear()
+        self.update_flag = False
         self.set_usb_ports()
         if self.comPorts!=self.ts.listPorts():
             self.comPorts=self.ts.listPorts()
@@ -219,8 +223,19 @@ class Ui_Form(QtCore.QObject):
     def change_usb_path(self):
         if sys.platform != "win32":
             self.usb_path=self.comboBox_4.currentText().rsplit("@",1)[1] + "newfile.txt"
+            if self.update_flag == True:
+                self.mount_usb_drive()
         else:
             self.usb_path=self.comboBox_4.currentText() + "newfile.txt"
+        self.update_flag = True
+
+    def mount_usb_drive(self, usb_path):
+        mount_name = "usb_drive"
+        try:
+            subprocess.run([f"sudo mkdir /media/{mount_name}"], check = True)
+            subprocess.run([f"sudo mount {usb_path} /media/{mount_name}"], check = True)
+        except Exception as e:
+            print (str(e))
 
     
     def test_usb(self):
